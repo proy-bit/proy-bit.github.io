@@ -13,18 +13,17 @@
             overflow-x: hidden;
         }
 
-         #logoBackground {
-            position: absolute;
-            top: 250px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('logo_656.png'); /* Logo como fondo */
-            background-position: top left;
-            background-repeat: repeat-x; /* Repite horizontalmente */
-            background-size: 33.33% auto; /* Asegura que se repita 3 veces horizontalmente */
-            opacity: 0.1; /* Baja opacidad */
-            z-index: -1; /* Ponerlo detrás del contenido */
+        /* Estilo para el contenedor del formulario */
+        #formContainer {
+            position: relative;
+            margin: 0 auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            min-height: 300px;
         }
 
         /* Estilo para el mensaje explicativo */
@@ -33,7 +32,7 @@
             font-size: 1.2em;
             margin: 20px;
             padding: 20px;
-            background: linear-gradient(to right, #1936d5, #1E90FF); 
+            background: linear-gradient(to right, #1936d5, #1E90FF);
             border-radius: 8px;
             color: white;
         }
@@ -41,13 +40,8 @@
         /* Estilos del formulario */
         #propuestaForm {
             display: block;
-            margin: 0 auto;
             padding: 20px;
-            background-color: white; /* Fondo blanco para el formulario */
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            width: 80%;
-            max-width: 500px;
+            position: relative;
         }
 
         label {
@@ -63,7 +57,7 @@
         }
 
         button {
-            background-color: #1E90FF; /* Azul */
+            background-color: #1E90FF;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -73,7 +67,7 @@
         }
 
         button:hover {
-            background-color: #4682B4; /* Azul más oscuro al pasar el mouse */
+            background-color: #4682B4;
         }
 
         /* Estilo para los mensajes de éxito y error */
@@ -91,7 +85,7 @@
 
         #anotherProposalButton, #retryButton {
             margin-top: 20px;
-            background-color: #1E90FF; /* Azul */
+            background-color: #1E90FF;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -101,34 +95,53 @@
         }
 
         #anotherProposalButton:hover, #retryButton:hover {
-            background-color: #4682B4; /* Azul más oscuro al pasar el mouse */
+            background-color: #4682B4;
+        }
+
+        /* Estilo para el círculo con el logo */
+        #logoContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #logoContainer img {
+            width: 100px; /* Ajusta el tamaño del logo */
+            height: 100px; /* Asegura que sea un círculo */
+            border-radius: 50%; /* Hace el logo circular */
+            object-fit: cover; /* Asegura que el logo se ajuste bien dentro del círculo */
+            border: 3px solid #1E90FF; /* Borde del círculo */
         }
     </style>
 </head>
 <body>
-    <!-- Contenedor del fondo con el logo -->
-    <div id="logoBackground"></div>
-    
     <!-- Mensaje explicativo -->
     <div id="introMessage">
         <p><strong>Si eres una persona tímida que prefiere no comentar u opinar en grupos grandes, este es tu espacio.</strong></p>
         <p>Por este medio puedes informarnos sobre cualquier problema, sugerencia o propuesta que tengas. Puede ser de manera anónima, si así lo prefieres.</p>
         <p>Cuéntanos tus propuestas para rutas, recorridos, actividades, horarios, temáticas, etcétera.</p>
         <p><strong>¡No te quedes sin participar, juntos podemos mejorar y crecer esta comunidad!</strong></p>
-<p>Atte: 656 Rollers</p>
+        <p>Atte: 656 Rollers</p>
+
+        <!-- Círculo con el logo debajo de "Atte" -->
+        <div id="logoContainer">
+            <img src="logo_656.png" alt="Logo de 656 Rollers">
+        </div>
     </div>
 
     <h1 style="text-align: center;">Envía tu propuesta</h1>
-    
-    <form id="propuestaForm">
-        <label for="nombre">Nombre (opcional):</label>
-        <input type="text" id="nombre" name="nombre">
-        <br>
-        <label for="propuesta">Tu propuesta:</label>
-        <textarea id="propuesta" name="propuesta" rows="4" required></textarea>
-        <br>
-        <button type="submit">Enviar</button>
-    </form>
+
+    <!-- Contenedor del formulario -->
+    <div id="formContainer">
+        <form id="propuestaForm">
+            <label for="nombre">Nombre (opcional):</label>
+            <input type="text" id="nombre" name="nombre">
+            <br>
+            <label for="propuesta">Tu propuesta:</label>
+            <textarea id="propuesta" name="propuesta" rows="4" required></textarea>
+            <br>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
 
     <!-- Mensaje de éxito -->
     <div id="successMessage">
@@ -148,13 +161,13 @@
             e.preventDefault();
             var nombre = document.getElementById('nombre').value;
             var propuesta = document.getElementById('propuesta').value;
-            
+
             // Validación básica de la propuesta
             if (!propuesta.trim()) {
                 alert('Por favor, escribe una propuesta válida.');
                 return;
             }
-            
+
             // Realizamos la solicitud al backend para enviar el correo
             fetch('https://api.emailjs.com/api/v1.0/email/send', {
                 method: 'POST',
@@ -212,3 +225,4 @@
     </script>
 </body>
 </html>
+
