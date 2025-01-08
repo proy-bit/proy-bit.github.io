@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>656 Rollers</title>
     <style>
-        /* Estilos para el logo */
-        #logo {
-            position: absolute;
-            top: 300px; /* Distancia desde la parte superior */
-            left: 10px; /* Distancia desde la parte izquierda */
-            width: 300px; 
-            height: auto;
-	background: transparent;
-        }
-
         /* Estilos generales */
         body {
             font-family: Arial, sans-serif;
@@ -22,16 +12,23 @@
             color: black; /* Texto en negro */
             margin: 0;
             padding: 0;
+            background-image: url('logo_656.png'); /* Usar el logo como fondo */
+            background-position: center; /* Centrar la imagen */
+            background-repeat: no-repeat; /* No repetir la imagen */
+            background-size: 50%; /* Ajustar el tamaño de la imagen al 50% del tamaño de la pantalla */
+            background-attachment: fixed; /* Fijar la imagen en el fondo */
+            opacity: 0.1; /* Baja opacidad para el fondo */
         }
 
         /* Estilo para el mensaje explicativo */
-       #introMessage {
-    text-align: center;
-    font-size: 1.2em;
-    margin: 20px;
-    padding: 20px;
-    background: linear-gradient(to right, #1936d5, #1E90FF);     border-radius: 8px;
-    color: white;
+        #introMessage {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px;
+            padding: 20px;
+            background: linear-gradient(to right, #1936d5, #1E90FF); 
+            border-radius: 8px;
+            color: white;
         }
 
         /* Estilos del formulario */
@@ -102,9 +99,6 @@
     </style>
 </head>
 <body>
-    <!-- Logo en la esquina superior izquierda -->
-    <img src="logo_656.png" alt="Logo" id="logo">
-    
     <!-- Mensaje explicativo -->
     <div id="introMessage">
         <p><strong>Si eres una persona tímida que prefiere no comentar u opinar en grupos grandes, este es tu espacio.</strong></p>
