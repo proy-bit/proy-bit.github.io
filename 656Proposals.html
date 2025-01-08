@@ -8,16 +8,24 @@
         /* Estilos generales */
         body {
             font-family: Arial, sans-serif;
-            background-color: white; /* Fondo blanco para la página */
-            color: black; /* Texto en negro */
             margin: 0;
             padding: 0;
-            background-image: url('logo_656.png'); /* Usar el logo como fondo */
-            background-position: center; /* Centrar la imagen */
-            background-repeat: no-repeat; /* No repetir la imagen */
-            background-size: 50%; /* Ajustar el tamaño de la imagen al 50% del tamaño de la pantalla */
-            background-attachment: fixed; /* Fijar la imagen en el fondo */
-            opacity: 0.1; /* Baja opacidad para el fondo */
+            overflow-x: hidden;
+        }
+
+        /* Contenedor del logo (background) */
+        #logoBackground {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('logo_656.png'); /* Logo como fondo */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 50%; /* Ajustar tamaño de la imagen */
+            opacity: 0.1; /* Baja opacidad */
+            z-index: -1; /* Ponerlo detrás del contenido */
         }
 
         /* Estilo para el mensaje explicativo */
@@ -99,6 +107,9 @@
     </style>
 </head>
 <body>
+    <!-- Contenedor del fondo con el logo -->
+    <div id="logoBackground"></div>
+    
     <!-- Mensaje explicativo -->
     <div id="introMessage">
         <p><strong>Si eres una persona tímida que prefiere no comentar u opinar en grupos grandes, este es tu espacio.</strong></p>
@@ -201,3 +212,4 @@
     </script>
 </body>
 </html>
+
