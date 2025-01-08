@@ -13,17 +13,16 @@
             overflow-x: hidden;
         }
 
-        /* Contenedor del logo (background) */
-        #logoBackground {
+         #logoBackground {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             background-image: url('logo_656.png'); /* Logo como fondo */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 50%; /* Ajustar tamaño de la imagen */
+            background-position: top left;
+            background-repeat: repeat-x; /* Repite horizontalmente */
+            background-size: 33.33% auto; /* Asegura que se repita 3 veces horizontalmente */
             opacity: 0.1; /* Baja opacidad */
             z-index: -1; /* Ponerlo detrás del contenido */
         }
