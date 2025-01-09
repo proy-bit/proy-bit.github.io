@@ -1,65 +1,231 @@
-document.getElementById('propuestaForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var nombre = document.getElementById('nombre').value;
-    var propuesta = document.getElementById('propuesta').value;
-
-    // Validación básica de la propuesta
-    if (!propuesta.trim()) {
-        alert('Por favor, escribe una propuesta válida.');
-        return;
-    }
-
-    // Realizamos la solicitud al backend para enviar el correo
-    fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            service_id: 'service_xcxd6mu',
-            template_id: 'template_tmk2b7p',
-            user_id: 'O2RwGslfhB17kpP_U',
-            template_params: {
-                nombre: nombre,
-                propuesta: propuesta
-            }
-        })
-    })
-    .then(response => {
-        if (response.ok) {
-            // Ocultar el formulario y el contenedor
-            document.getElementById('formContainer').style.display = 'none';
-            // Mostrar el mensaje de éxito
-            document.getElementById('successMessage').style.display = 'block';
-            document.getElementById('errorMessage').style.display = 'none';
-        } else {
-            throw new Error('Hubo un error al enviar la propuesta');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>656 Rollers</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
-    })
-    .catch(error => {
-        // Mostrar mensaje de error y ocultar formulario y contenedor
-        document.getElementById('errorMessage').style.display = 'block';
-        document.getElementById('formContainer').style.display = 'none';
-        document.getElementById('successMessage').style.display = 'none';
-    });
-});
 
-// Botón para enviar otra propuesta
-document.getElementById('anotherProposalButton').addEventListener('click', function() {
-    // Mostrar de nuevo el contenedor y el formulario, y ocultar el mensaje de éxito
-    document.getElementById('formContainer').style.display = 'block';
-    document.getElementById('successMessage').style.display = 'none';
-    // Limpiar los campos del formulario
-    document.getElementById('nombre').value = '';
-    document.getElementById('propuesta').value = '';
-});
+        /* Estilo para el contenedor del formulario */
+        #formContainer {
+            position: relative;
+            margin: 0 auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            min-height: 300px;
+        }
 
-// Botón para reintentar el envío de la propuesta
-document.getElementById('retryButton').addEventListener('click', function() {
-    // Mostrar el formulario y el contenedor, y ocultar el mensaje de error
-    document.getElementById('formContainer').style.display = 'block';
-    document.getElementById('errorMessage').style.display = 'none';
-    // Limpiar los campos del formulario para reintentar
-    document.getElementById('nombre').value = '';
-    document.getElementById('propuesta').value = '';
-});
+        /* Estilo para el mensaje explicativo */
+        #introMessage {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px;
+            padding: 20px;
+            background: linear-gradient(to right, #1936d5, #1E90FF);
+            border-radius: 8px;
+            color: white;
+        }
+
+        /* Estilos del formulario */
+        #propuestaForm {
+            display: block;
+            padding: 20px;
+            position: relative;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #1E90FF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #4682B4;
+        }
+
+        /* Estilo para los mensajes de éxito y error */
+        #successMessage, #errorMessage {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #checkmark {
+            width: 50px;
+            height: 50px;
+            margin-top: 10px;
+        }
+
+        #anotherProposalButton, #retryButton {
+            margin-top: 20px;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        #anotherProposalButton:hover, #retryButton:hover {
+            background-color: #4682B4;
+        }
+
+        /* Estilo para el círculo con el logo */
+        #logoContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #logoContainer img {
+            width: 100px; /* Ajusta el tamaño del logo */
+            height: 100px; /* Asegura que sea un círculo */
+            border-radius: 50%; /* Hace el logo circular */
+            object-fit: cover; /* Asegura que el logo se ajuste bien dentro del círculo */
+            border: 3px solid #1E90FF; /* Borde del círculo */
+        }
+    </style>
+</head>
+<body>
+    <!-- Mensaje explicativo -->
+    <div id="introMessage">
+        <p><strong>Si eres una persona tímida que prefiere no comentar u opinar en grupos grandes, este es tu espacio.</strong></p>
+        <p>Por este medio puedes informarnos sobre cualquier problema, sugerencia o propuesta que tengas. Puede ser de manera anónima, si así lo prefieres.</p>
+        <p>Cuéntanos tus propuestas para rutas, recorridos, actividades, horarios, temáticas, etcétera.</p>
+        <p><strong>¡No te quedes sin participar, juntos podemos mejorar y crecer esta comunidad!</strong></p>
+        <p>Atte: 656 Rollers</p>
+
+        <!-- Círculo con el logo debajo de "Atte" -->
+        <div id="logoContainer">
+            <img src="logo_656.png" alt="Logo de 656 Rollers">
+        </div>
+    </div>
+
+    <h1 style="text-align: center;">Envía tu propuesta</h1>
+
+    <!-- Contenedor del formulario -->
+    <div id="formContainer">
+        <form id="propuestaForm">
+            <label for="nombre">Nombre (opcional):</label>
+            <input type="text" id="nombre" name="nombre">
+            <br>
+            <label for="propuesta">Tu propuesta:</label>
+            <textarea id="propuesta" name="propuesta" rows="4" required></textarea>
+            <br>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Mensaje de éxito -->
+    <div id="successMessage">
+        <img src="checkmark.png" alt="Checkmark" id="checkmark">
+        <p>Propuesta enviada exitosamente</p>
+        <button id="anotherProposalButton">Enviar otra propuesta</button>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div id="errorMessage">
+        <p>Hubo un error al enviar la propuesta. Intenta de nuevo.</p>
+        <button id="retryButton">Reintentar</button>
+    </div>
+
+    <script>
+        document.getElementById('propuestaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var nombre = document.getElementById('nombre').value;
+            var propuesta = document.getElementById('propuesta').value;
+
+            // Validación básica de la propuesta
+            if (!propuesta.trim()) {
+                alert('Por favor, escribe una propuesta válida.');
+                return;
+            }
+
+            // Realizamos la solicitud al backend para enviar el correo
+            fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    service_id: 'service_xcxd6mu',
+                    template_id: 'template_tmk2b7p',
+                    user_id: 'O2RwGslfhB17kpP_U',
+                    template_params: {
+                        nombre: nombre,
+                        propuesta: propuesta
+                    }
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Ocultar el formulario
+			document.getElementById('formContainer').style.display = 'none';
+                    document.getElementById('propuestaForm').style.display = 'none';
+                    // Mostrar el mensaje de éxito
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'none';
+                } else {
+                    throw new Error('Hubo un error al enviar la propuesta');
+                }
+            })
+            .catch(error => {
+                // Mostrar mensaje de error y ocultar formulario
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('propuestaForm').style.display = 'none';
+document.getElementById('formContainer').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'none';
+            });
+        });
+
+        // Botón para enviar otra propuesta
+        document.getElementById('anotherProposalButton').addEventListener('click', function() {
+            // Mostrar de nuevo el formulario y ocultar el mensaje de éxito
+document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('propuestaForm').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+            // Limpiar los campos del formulario
+            document.getElementById('nombre').value = '';
+            document.getElementById('propuesta').value = '';
+        });
+
+        // Botón para reintentar el envío de la propuesta
+        document.getElementById('retryButton').addEventListener('click', function() {
+            // Mostrar el formulario y ocultar el mensaje de error
+document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('propuestaForm').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            // Limpiar los campos del formulario para reintentar
+            document.getElementById('nombre').value = '';
+            document.getElementById('propuesta').value = '';
+        });
+    </script>
+</body>
+</html>
